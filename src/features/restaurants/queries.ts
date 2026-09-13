@@ -6,10 +6,13 @@ import type { ListItem, Restaurant, RestaurantLog, SavedList } from "@/types/ent
 
 import { listItemKeys, listKeys, logKeys, restaurantKeys } from "./keys";
 
+// The SDK caps unbounded reads at a small default page; these lists are small enough to fetch whole.
+const PAGE_LIMIT = 500;
+
 export function useRestaurants() {
   return useQuery({
     queryKey: restaurantKeys.all,
-    queryFn: async () => (await base44.entities.Restaurant.list()) as Restaurant[],
+    queryFn: async () => (await base44.entities.Restaurant.list(undefined, PAGE_LIMIT)) as Restaurant[],
   });
 }
 
@@ -26,7 +29,11 @@ export function useMyLogs() {
   return useQuery({
     queryKey: logKeys.mine(user.id),
     queryFn: async () =>
-      (await base44.entities.RestaurantLog.filter({ user_id: user.id }, "-visited_at")) as RestaurantLog[],
+      (await base44.entities.RestaurantLog.filter(
+        { user_id: user.id },
+        "-visited_at",
+        PAGE_LIMIT,
+      )) as RestaurantLog[],
   });
 }
 
@@ -34,7 +41,8 @@ export function useMyLists() {
   const user = useCurrentUser();
   return useQuery({
     queryKey: listKeys.mine(user.id),
-    queryFn: async () => (await base44.entities.SavedList.filter({ user_id: user.id })) as SavedList[],
+    queryFn: async () =>
+      (await base44.entities.SavedList.filter({ user_id: user.id }, undefined, PAGE_LIMIT)) as SavedList[],
   });
 }
 
@@ -42,6 +50,7 @@ export function useMyListItems() {
   const user = useCurrentUser();
   return useQuery({
     queryKey: listItemKeys.mine(user.id),
-    queryFn: async () => (await base44.entities.ListItem.filter({ user_id: user.id })) as ListItem[],
+    queryFn: async () =>
+      (await base44.entities.ListItem.filter({ user_id: user.id }, undefined, PAGE_LIMIT)) as ListItem[],
   });
 }
