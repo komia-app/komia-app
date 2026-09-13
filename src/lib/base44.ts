@@ -1,4 +1,4 @@
-import "expo-crypto";
+import "@/lib/crypto-polyfill";
 
 import { createClient } from "@base44/sdk";
 
