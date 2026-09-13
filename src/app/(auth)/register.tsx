@@ -1,16 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-
-import { text } from "@/theme";
+import { RegisterScreen } from "@/screens/auth/register";
 
 export default function RegisterRoute() {
-  return (
-    <View style={styles.root}>
-      <Text style={styles.label}>register (placeholder)</Text>
-    </View>
-  );
+  return <RegisterScreen />;
 }
-
-const styles = StyleSheet.create({
-  root: { flex: 1, alignItems: "center", justifyContent: "center" },
-  label: text.caption,
-});
