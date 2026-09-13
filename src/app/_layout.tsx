@@ -46,6 +46,15 @@ function RootNavigator() {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="log-visit"
+          options={{
+            presentation: "formSheet",
+            sheetAllowedDetents: [0.7, 1],
+            sheetGrabberVisible: true,
+            headerShown: false,
+          }}
+        />
       </Stack.Protected>
       <Stack.Protected guard={signedIn && !onboarded}>
         <Stack.Screen name="onboarding" />
