@@ -65,6 +65,7 @@ export function RegisterScreen() {
       await signIn(login.access_token);
     } catch (e) {
       setError(errorMessage(e, "Invalid verification code"));
+    } finally {
       setLoading(false);
     }
   };
