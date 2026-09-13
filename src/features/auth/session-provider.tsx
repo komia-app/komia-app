@@ -41,9 +41,15 @@ export function SessionProvider({ children }: PropsWithChildren) {
 
   const signIn = useCallback(async (token: string) => {
     base44.auth.setToken(token, false);
-    await sessionStore.setToken(token);
-    const user = await fetchUser();
-    setState({ status: "signed-in", user });
+    try {
+      const user = await fetchUser();
+      await sessionStore.setToken(token);
+      setState({ status: "signed-in", user });
+    } catch (error) {
+      base44.auth.setToken(SIGNED_OUT_TOKEN, false);
+      setState({ status: "signed-out", error: classifyAuthError(error) ?? undefined });
+      throw error;
+    }
   }, []);
 
   const signOut = useCallback(async () => {
