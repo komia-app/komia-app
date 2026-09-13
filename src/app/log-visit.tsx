@@ -1,16 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useLocalSearchParams } from "expo-router";
 
-import { text } from "@/theme";
+import { LogVisitScreen } from "@/screens/log-visit";
 
 export default function LogVisitRoute() {
-  return (
-    <View style={styles.root}>
-      <Text style={styles.label}>log visit (placeholder)</Text>
-    </View>
-  );
+  const { id } = useLocalSearchParams<{ id: string }>();
+  return <LogVisitScreen restaurantId={id ?? ""} />;
 }
-
-const styles = StyleSheet.create({
-  root: { flex: 1, alignItems: "center", justifyContent: "center" },
-  label: text.caption,
-});
