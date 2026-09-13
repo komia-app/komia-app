@@ -38,4 +38,24 @@ describe("sessionStore (web)", () => {
     });
     await expect(sessionStore.getToken()).resolves.toBeNull();
   });
+
+  it("does not throw when a storage call fails", async () => {
+    Object.defineProperty(globalThis, "localStorage", {
+      value: {
+        getItem: () => {
+          throw new Error("blocked");
+        },
+        setItem: () => {
+          throw new Error("quota");
+        },
+        removeItem: () => {
+          throw new Error("blocked");
+        },
+      },
+      configurable: true,
+    });
+    await expect(sessionStore.setToken("x")).resolves.toBeUndefined();
+    await expect(sessionStore.clearToken()).resolves.toBeUndefined();
+    await expect(sessionStore.getToken()).resolves.toBeNull();
+  });
 });
