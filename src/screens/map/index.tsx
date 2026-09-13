@@ -26,14 +26,18 @@ export function MapScreen() {
   useEffect(() => {
     let cancelled = false;
     async function locate() {
-      const permission = await Location.requestForegroundPermissionsAsync();
-      if (permission.status !== "granted" || cancelled) return;
-      const pos = await Location.getCurrentPositionAsync({});
-      if (cancelled) return;
-      mapRef.current?.animateToRegion(
-        { latitude: pos.coords.latitude, longitude: pos.coords.longitude, latitudeDelta: 0.03, longitudeDelta: 0.03 },
-        600,
-      );
+      try {
+        const permission = await Location.requestForegroundPermissionsAsync();
+        if (permission.status !== "granted" || cancelled) return;
+        const pos = await Location.getCurrentPositionAsync({});
+        if (cancelled) return;
+        mapRef.current?.animateToRegion(
+          { latitude: pos.coords.latitude, longitude: pos.coords.longitude, latitudeDelta: 0.03, longitudeDelta: 0.03 },
+          600,
+        );
+      } catch {
+        // Location is optional: the map stays on the Bogota region.
+      }
     }
     void locate();
     return () => {
