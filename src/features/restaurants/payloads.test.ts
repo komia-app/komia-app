@@ -1,8 +1,8 @@
-import { buildLogVisitPayload, DEFAULT_LIST, pickDefaultList } from "./payloads";
+import { buildLogVisitPayload, DEFAULT_LIST, localDateString, pickDefaultList } from "./payloads";
 import type { SavedList } from "@/types/entities";
 
 describe("buildLogVisitPayload", () => {
-  const base = { userId: "u1", restaurantId: "r1", today: new Date("2026-09-13T15:00:00Z") };
+  const base = { userId: "u1", restaurantId: "r1", today: new Date(2026, 8, 13, 15, 0) };
 
   it("marks a 4 or 5 rating as would_return", () => {
     const p = buildLogVisitPayload({ ...base, rating: 4, review: "" });
@@ -23,6 +23,19 @@ describe("buildLogVisitPayload", () => {
 
   it("trims the review", () => {
     expect(buildLogVisitPayload({ ...base, rating: 5, review: "  great  " }).review).toBe("great");
+  });
+
+  it("uses the local calendar day, not the UTC day", () => {
+    const lateEvening = new Date(2026, 8, 13, 23, 30);
+    expect(buildLogVisitPayload({ ...base, today: lateEvening, rating: 5, review: "" }).visited_at).toBe(
+      "2026-09-13",
+    );
+  });
+});
+
+describe("localDateString", () => {
+  it("zero-pads the month and day", () => {
+    expect(localDateString(new Date(2026, 0, 5))).toBe("2026-01-05");
   });
 });
 

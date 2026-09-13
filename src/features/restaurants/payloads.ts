@@ -10,11 +10,19 @@ interface BuildLogVisitInput {
   today: Date;
 }
 
+// The visit date is the user's calendar day, not the UTC day.
+export function localDateString(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
 export function buildLogVisitPayload({ userId, restaurantId, rating, review, today }: BuildLogVisitInput) {
   return {
     user_id: userId,
     restaurant_id: restaurantId,
-    visited_at: today.toISOString().slice(0, 10),
+    visited_at: localDateString(today),
     overall_rating: rating,
     review: review.trim(),
     visibility: "friends" as const,
