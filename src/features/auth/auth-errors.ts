@@ -25,3 +25,8 @@ export function classifyAuthError(error: unknown): SessionError | null {
 export function isAuthRejection(error: unknown): boolean {
   return isBase44Error(error) && (error.status === 401 || error.status === 403);
 }
+
+export function errorMessage(error: unknown, fallback: string): string {
+  if (error instanceof Error && error.message) return error.message;
+  return fallback;
+}
