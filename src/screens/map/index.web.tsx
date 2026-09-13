@@ -35,7 +35,7 @@ export function MapScreen() {
         keyExtractor={(r) => r.id}
         contentContainerStyle={styles.list}
         renderItem={({ item }) => (
-          <RestaurantCard restaurant={item} onSave={(r) => void save.mutateAsync(r)} onLog={onLog} />
+          <RestaurantCard restaurant={item} onSave={(r) => save.mutate(r)} onLog={onLog} />
         )}
       />
     </View>
