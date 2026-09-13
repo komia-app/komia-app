@@ -15,6 +15,7 @@ export function useSaveRestaurant() {
 
   return useMutation({
     mutationFn: async (restaurant: Restaurant): Promise<SaveResult> => {
+      if (!user) throw new Error("Sign in to save restaurants");
       const lists = (await base44.entities.SavedList.filter({ user_id: user.id })) as SavedList[];
       let list = pickDefaultList(lists);
       if (!list) {
@@ -35,6 +36,7 @@ export function useSaveRestaurant() {
       return "saved";
     },
     onSuccess: () => {
+      if (!user) return;
       void client.invalidateQueries({ queryKey: listKeys.mine(user.id) });
       void client.invalidateQueries({ queryKey: listItemKeys.mine(user.id) });
     },
@@ -53,6 +55,7 @@ export function useLogVisit() {
 
   return useMutation({
     mutationFn: async ({ restaurant, rating, review }: LogVisitInput) => {
+      if (!user) throw new Error("Sign in to log a visit");
       const payload = buildLogVisitPayload({
         userId: user.id,
         restaurantId: restaurant.id,
@@ -63,6 +66,7 @@ export function useLogVisit() {
       await base44.entities.RestaurantLog.create(payload);
     },
     onSuccess: () => {
+      if (!user) return;
       void client.invalidateQueries({ queryKey: logKeys.mine(user.id) });
     },
   });

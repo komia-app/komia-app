@@ -9,6 +9,7 @@ import {
 } from "react";
 
 import { base44, base44Urls } from "@/lib/base44";
+import { queryClient } from "@/lib/query-client";
 import type { User } from "@/types/entities";
 
 import { classifyAuthError, isAuthRejection, type SessionError } from "./auth-errors";
@@ -55,6 +56,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const signOut = useCallback(async () => {
     await sessionStore.clearToken();
     setState({ status: "signed-out" });
+    queryClient.clear();
     base44.auth.setToken(SIGNED_OUT_TOKEN, false);
     try {
       await fetch(`${base44Urls.appBaseUrl}/api/apps/auth/logout`, { method: "GET" });
@@ -110,8 +112,8 @@ export function useSession(): SessionContextValue {
   return value;
 }
 
-export function useCurrentUser(): User {
+// Returns the signed-in user, or null when signed out or still loading the session.
+export function useCurrentUser(): User | null {
   const { state } = useSession();
-  if (state.status !== "signed-in") throw new Error("useCurrentUser called while signed out");
-  return state.user;
+  return state.status === "signed-in" ? state.user : null;
 }

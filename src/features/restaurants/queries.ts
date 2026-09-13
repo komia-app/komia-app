@@ -26,31 +26,37 @@ export function useRestaurant(id: string) {
 
 export function useMyLogs() {
   const user = useCurrentUser();
+  const userId = user?.id ?? "";
   return useQuery({
-    queryKey: logKeys.mine(user.id),
+    queryKey: logKeys.mine(userId),
     queryFn: async () =>
       (await base44.entities.RestaurantLog.filter(
-        { user_id: user.id },
+        { user_id: userId },
         "-visited_at",
         PAGE_LIMIT,
       )) as RestaurantLog[],
+    enabled: userId.length > 0,
   });
 }
 
 export function useMyLists() {
   const user = useCurrentUser();
+  const userId = user?.id ?? "";
   return useQuery({
-    queryKey: listKeys.mine(user.id),
+    queryKey: listKeys.mine(userId),
     queryFn: async () =>
-      (await base44.entities.SavedList.filter({ user_id: user.id }, undefined, PAGE_LIMIT)) as SavedList[],
+      (await base44.entities.SavedList.filter({ user_id: userId }, undefined, PAGE_LIMIT)) as SavedList[],
+    enabled: userId.length > 0,
   });
 }
 
 export function useMyListItems() {
   const user = useCurrentUser();
+  const userId = user?.id ?? "";
   return useQuery({
-    queryKey: listItemKeys.mine(user.id),
+    queryKey: listItemKeys.mine(userId),
     queryFn: async () =>
-      (await base44.entities.ListItem.filter({ user_id: user.id }, undefined, PAGE_LIMIT)) as ListItem[],
+      (await base44.entities.ListItem.filter({ user_id: userId }, undefined, PAGE_LIMIT)) as ListItem[],
+    enabled: userId.length > 0,
   });
 }
