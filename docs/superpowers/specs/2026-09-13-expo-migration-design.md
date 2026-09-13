@@ -148,7 +148,7 @@ TanStack Query, already a dependency, is used for real:
 
 | Screen | Native shape |
 |---|---|
-| Login, Register, Forgot password, Reset password | Stack screens. Expo UI `FieldGroup`, `TextInput`, and `Button`. Google button only on the paths the spike confirms. |
+| Login, Register, Forgot password, Reset password | Stack screens. React Native `TextInput` inside a labelled field component (Expo UI's `TextInput` uses a worklet-driven observable value, which is more than a plain form needs), Expo UI `Button`. Google button only on the paths the spike confirms. |
 | User not registered | Message screen inside `(auth)` with a logout button. |
 | Onboarding | Seven-step pager in a stack with a progress bar in the header. `chip-select`, `rank-select` (tap options in order to rank, tap a ranked item to remove), and `scale-select` stay custom components because Expo UI has no chip or rank primitive. Submits `updateMe` with `onboarding_completed: true`, same payload as today. |
 | Map | `react-native-maps` full-bleed under a transparent header with `Stack.SearchBar` filtering pins by name, neighbourhood, cuisine, and tag. Device position from `expo-location`, falling back to the Bogota centre. Tapping a pin opens an Expo UI `BottomSheet` with the restaurant card, save, log-visit, and a link to the detail screen. `map.web.tsx` renders the same data as a plain list. |
