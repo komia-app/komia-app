@@ -7,7 +7,7 @@ import type { ListItem, Restaurant, RestaurantLog, SavedList } from "@/types/ent
 import { listItemKeys, listKeys, logKeys, restaurantKeys } from "./keys";
 
 // The SDK caps unbounded reads at a small default page; these lists are small enough to fetch whole.
-const PAGE_LIMIT = 500;
+export const PAGE_LIMIT = 500;
 
 export function useRestaurants() {
   return useQuery({

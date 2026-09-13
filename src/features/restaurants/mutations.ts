@@ -6,6 +6,7 @@ import type { ListItem, Restaurant, SavedList } from "@/types/entities";
 
 import { listItemKeys, listKeys, logKeys } from "./keys";
 import { buildLogVisitPayload, DEFAULT_LIST, pickDefaultList } from "./payloads";
+import { PAGE_LIMIT } from "./queries";
 
 export type SaveResult = "saved" | "already-saved";
 
@@ -16,16 +17,24 @@ export function useSaveRestaurant() {
   return useMutation({
     mutationFn: async (restaurant: Restaurant): Promise<SaveResult> => {
       if (!user) throw new Error("Sign in to save restaurants");
-      const lists = (await base44.entities.SavedList.filter({ user_id: user.id })) as SavedList[];
+      const lists = (await base44.entities.SavedList.filter(
+        { user_id: user.id },
+        undefined,
+        PAGE_LIMIT,
+      )) as SavedList[];
       let list = pickDefaultList(lists);
       if (!list) {
         list = (await base44.entities.SavedList.create({ user_id: user.id, ...DEFAULT_LIST })) as SavedList;
       }
-      const existing = (await base44.entities.ListItem.filter({
-        user_id: user.id,
-        list_id: list.id,
-        restaurant_id: restaurant.id,
-      })) as ListItem[];
+      const existing = (await base44.entities.ListItem.filter(
+        {
+          user_id: user.id,
+          list_id: list.id,
+          restaurant_id: restaurant.id,
+        },
+        undefined,
+        PAGE_LIMIT,
+      )) as ListItem[];
       if (existing.length > 0) return "already-saved";
       await base44.entities.ListItem.create({
         user_id: user.id,

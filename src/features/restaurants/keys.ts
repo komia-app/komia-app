@@ -1,6 +1,6 @@
 export const restaurantKeys = {
   all: ["restaurants"] as const,
-  detail: (id: string) => ["restaurants", id] as const,
+  detail: (id: string) => ["restaurants", "detail", id] as const,
 };
 
 export const logKeys = {
