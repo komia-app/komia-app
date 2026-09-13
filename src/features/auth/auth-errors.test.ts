@@ -1,4 +1,4 @@
-import { classifyAuthError } from "./auth-errors";
+import { classifyAuthError, isAuthRejection } from "./auth-errors";
 
 describe("classifyAuthError", () => {
   it("returns null for 401 (plain signed-out)", () => {
@@ -18,5 +18,17 @@ describe("classifyAuthError", () => {
   it("returns unknown for anything else", () => {
     expect(classifyAuthError(new Error("network"))).toBe("unknown");
     expect(classifyAuthError({ status: 500 })).toBe("unknown");
+  });
+});
+
+describe("isAuthRejection", () => {
+  it("is true for 401 and 403", () => {
+    expect(isAuthRejection({ status: 401 })).toBe(true);
+    expect(isAuthRejection({ status: 403 })).toBe(true);
+  });
+
+  it("is false for network errors and other statuses", () => {
+    expect(isAuthRejection(new Error("network"))).toBe(false);
+    expect(isAuthRejection({ status: 500 })).toBe(false);
   });
 });

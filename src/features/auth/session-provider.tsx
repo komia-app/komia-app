@@ -11,7 +11,7 @@ import {
 import { base44, base44Urls } from "@/lib/base44";
 import type { User } from "@/types/entities";
 
-import { classifyAuthError, type SessionError } from "./auth-errors";
+import { classifyAuthError, isAuthRejection, type SessionError } from "./auth-errors";
 import { sessionStore } from "./session-store";
 
 export type SessionState =
@@ -77,7 +77,9 @@ export function SessionProvider({ children }: PropsWithChildren) {
         const user = await fetchUser();
         if (!cancelled) setState({ status: "signed-in", user });
       } catch (error) {
-        await sessionStore.clearToken();
+        // Only a rejected token clears the session; an outage or offline boot keeps it
+        // so the next launch can retry.
+        if (isAuthRejection(error)) await sessionStore.clearToken();
         if (!cancelled) setState({ status: "signed-out", error: classifyAuthError(error) ?? undefined });
       }
     }

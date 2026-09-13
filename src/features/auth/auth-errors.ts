@@ -20,3 +20,8 @@ export function classifyAuthError(error: unknown): SessionError | null {
   }
   return "unknown";
 }
+
+// True only for responses that mean the token itself is not accepted.
+export function isAuthRejection(error: unknown): boolean {
+  return isBase44Error(error) && (error.status === 401 || error.status === 403);
+}
