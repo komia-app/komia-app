@@ -121,7 +121,7 @@ The SDK's token handling is browser-only: it reads the token from the URL and `l
 
 `loginWithProvider` builds its redirect from `window.location.origin` and cannot run on native. The app builds the same URL the SDK builds (`<appBaseUrl>/api/apps/auth/login?app_id=<id>&from_url=<return>`), opens it with `expo-web-browser`'s `openAuthSessionAsync`, and expects to return on `komia://auth?access_token=<token>`.
 
-This is a spike at step 3 of the build order. Its outcome is recorded here when known:
+This is a spike at step 3 of the build order. Outcome (spike run on 2026-09-13): Provisional, no Google account available to the agent: A, curl probes of `/api/apps/auth/login` with `from_url=komia://auth` and `from_url=https://base44.app/` both redirect through `app.base44.com` to the same `accounts.google.com/o/oauth2/v2/auth` URL (the custom scheme is carried through unchanged in the OAuth `state`), and on the Android emulator tapping "Continue with Google" opened a Chrome custom tab that reached the real Google "Sign in to continue to base44.com" page; cancelling the tab returned the app to the login screen without a crash. The final hop back through `komia://auth?access_token=...` was not observed end to end because no Google account was available to complete the sign-in.
 
 - If Base44 accepts a non-web `from_url`, the deep link is the whole flow.
 - If it does not, the web export keeps a `/auth/native` route that reads `access_token` from the query and redirects to `komia://auth?access_token=<token>`. That web export stays published to Base44, which it must anyway for `getPublicSettings`.

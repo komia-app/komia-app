@@ -5,6 +5,7 @@ import { StyleSheet, Text } from "react-native";
 import { PrimaryButton } from "@/components/primary-button";
 import { TextField } from "@/components/text-field";
 import { errorMessage } from "@/features/auth/auth-errors";
+import { startGoogleLogin } from "@/features/auth/google-login";
 import { useSession } from "@/features/auth/session-provider";
 import { base44 } from "@/lib/base44";
 import { colors, text } from "@/theme";
@@ -21,6 +22,16 @@ export function RegisterScreen() {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const google = async () => {
+    setError("");
+    try {
+      const token = await startGoogleLogin();
+      if (token) await signIn(token);
+    } catch (e) {
+      setError(errorMessage(e, "Google login failed"));
+    }
+  };
 
   const register = async () => {
     setError("");
@@ -112,6 +123,9 @@ export function RegisterScreen() {
       }
     >
       {error ? <Text style={styles.error}>{error}</Text> : null}
+      <PrimaryButton onPress={google} variant="outlined">
+        Continue with Google
+      </PrimaryButton>
       <TextField
         label="Email"
         value={email}
