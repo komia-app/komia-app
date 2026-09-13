@@ -51,8 +51,12 @@ export function MapScreen() {
   );
 
   const onSave = async (r: Restaurant) => {
-    const result = await save.mutateAsync(r);
-    Alert.alert(result === "saved" ? "Saved to Want to try" : "Already in Want to try");
+    try {
+      const result = await save.mutateAsync(r);
+      Alert.alert(result === "saved" ? "Saved to Want to try" : "Already in Want to try");
+    } catch (e) {
+      Alert.alert("Could not save", e instanceof Error ? e.message : undefined);
+    }
   };
 
   const onLog = (r: Restaurant) => {
