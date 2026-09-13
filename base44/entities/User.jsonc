@@ -1,0 +1,68 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "display_name": {
+      "type": "string"
+    },
+    "avatar_url": {
+      "type": "string"
+    },
+    "bio": {
+      "type": "string"
+    },
+    "home_city": {
+      "type": "string"
+    },
+    "favorite_cuisines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "disliked_cuisines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dietary_preferences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "price_preferences": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "$",
+          "$$",
+          "$$$",
+          "$$$$"
+        ]
+      }
+    },
+    "taste_tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "preferred_distance_km": {
+      "type": "number"
+    },
+    "mia_profile_summary": {
+      "type": "string"
+    },
+    "mia_profile_version": {
+      "type": "number",
+      "default": 1
+    },
+    "mia_last_updated": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "name": "Restaurant",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "cuisines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "secondary_cuisines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "price_level": {
+      "type": "string",
+      "enum": [
+        "$",
+        "$$",
+        "$$$",
+        "$$$$"
+      ]
+    },
+    "address": {
+      "type": "string"
+    },
+    "neighborhood": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "latitude": {
+      "type": "number"
+    },
+    "longitude": {
+      "type": "number"
+    },
+    "image_url": {
+      "type": "string"
+    },
+    "average_rating": {
+      "type": "number"
+    },
+    "rating_count": {
+      "type": "number"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "restaurant_type": {
+      "type": "string"
+    },
+    "awards": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "phone": {
+      "type": "string"
+    },
+    "website": {
+      "type": "string"
+    },
+    "opening_hours": {
+      "type": "string"
+    },
+    "vegetarian_friendly": {
+      "type": "boolean",
+      "default": false
+    },
+    "vegan_friendly": {
+      "type": "boolean",
+      "default": false
+    },
+    "outdoor_seating": {
+      "type": "boolean",
+      "default": false
+    },
+    "fine_dining": {
+      "type": "boolean",
+      "default": false
+    },
+    "casual": {
+      "type": "boolean",
+      "default": false
+    },
+    "romantic": {
+      "type": "boolean",
+      "default": false
+    },
+    "family_friendly": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "name",
+    "cuisines",
+    "price_level"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": null,
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

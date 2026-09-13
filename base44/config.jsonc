@@ -1,0 +1,9 @@
+{
+  "name": "untitled",
+  "site": {
+    "installCommand": "pnpm install",
+    "buildCommand": "pnpm build",
+    "serveCommand": "pnpm dev",
+    "outputDirectory": "./dist"
+  }
+}

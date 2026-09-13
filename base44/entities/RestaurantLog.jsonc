@@ -1,0 +1,124 @@
+{
+  "name": "RestaurantLog",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string"
+    },
+    "restaurant_id": {
+      "type": "string"
+    },
+    "visited_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "overall_rating": {
+      "type": "number"
+    },
+    "food_rating": {
+      "type": "number"
+    },
+    "service_rating": {
+      "type": "number"
+    },
+    "ambiance_rating": {
+      "type": "number"
+    },
+    "value_rating": {
+      "type": "number"
+    },
+    "review": {
+      "type": "string"
+    },
+    "dishes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "price_paid": {
+      "type": "number"
+    },
+    "occasion": {
+      "type": "string"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": [
+        "private",
+        "friends",
+        "public"
+      ],
+      "default": "friends"
+    },
+    "would_return": {
+      "type": "boolean"
+    },
+    "photos": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "likes_count": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "user_id",
+    "restaurant_id",
+    "visited_at",
+    "overall_rating"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
