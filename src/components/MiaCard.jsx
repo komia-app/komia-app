@@ -1,3 +1,0 @@
-import React from "react";
-import { Sparkles } from "lucide-react";
-export default function MiaCard() { return <section className="rounded-3xl bg-[#10375C] p-5 text-white shadow-lg"><div className="flex items-center gap-3"><span className="grid h-11 w-11 place-items-center rounded-2xl bg-[#EB8317]"><Sparkles className="h-6 w-6"/></span><div><p className="text-xs font-bold uppercase tracking-widest text-[#F3C623]">Meet MIA</p><h2 className="text-lg font-extrabold">Recommendations made for you</h2></div></div><p className="mt-3 text-sm leading-6 text-white/75">Every rating and restaurant you save helps MIA learn your cuisines, price range, neighborhoods, and dining style.</p></section>; }

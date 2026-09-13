@@ -2,8 +2,8 @@
   "name": "untitled",
   "site": {
     "installCommand": "pnpm install",
-    "buildCommand": "pnpm build",
-    "serveCommand": "pnpm dev",
+    "buildCommand": "pnpm exec expo export --platform web",
+    "serveCommand": "pnpm web",
     "outputDirectory": "./dist"
   }
 }
