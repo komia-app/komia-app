@@ -10,6 +10,7 @@ export function MiaScreen() {
   const [input, setInput] = useState("");
 
   const submit = () => {
+    if (loading || input.trim().length === 0) return;
     const value = input;
     setInput("");
     void send(value);
