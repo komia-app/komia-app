@@ -10,7 +10,8 @@ import { useRestaurants } from "@/features/restaurants/queries";
 import { colors } from "@/theme";
 import type { Restaurant } from "@/types/entities";
 
-import { matchesQuery } from "./filter";
+import { matchesQuery } from "@/features/restaurants/filter";
+
 import { RestaurantSheet } from "./restaurant-sheet";
 
 const BOGOTA: Region = { latitude: 4.6517, longitude: -74.0627, latitudeDelta: 0.08, longitudeDelta: 0.08 };

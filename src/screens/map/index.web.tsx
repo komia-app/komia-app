@@ -9,7 +9,7 @@ import { useRestaurants } from "@/features/restaurants/queries";
 import { colors, radius, spacing } from "@/theme";
 import type { Restaurant } from "@/types/entities";
 
-import { matchesQuery } from "./filter";
+import { matchesQuery } from "@/features/restaurants/filter";
 
 // Web is development-only: the map library has no web build, so this lists the same data.
 export function MapScreen() {
