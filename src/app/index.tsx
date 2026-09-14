@@ -1,7 +1,10 @@
 import { Redirect } from "expo-router";
 
-// The root path has no screen of its own. The gate in _layout.tsx sends
-// signed-out users to login when the map is not allowed.
+import { useSession } from "@/features/auth/session-provider";
+
+// The root path has no screen of its own: signed-in users go to the map,
+// everyone else to login. The gate in _layout.tsx handles onboarding.
 export default function IndexRoute() {
-  return <Redirect href="/map" />;
+  const { state } = useSession();
+  return <Redirect href={state.status === "signed-in" ? "/map" : "/login"} />;
 }

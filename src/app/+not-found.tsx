@@ -1,6 +1,9 @@
 import { Redirect } from "expo-router";
 
-// Unknown routes fall back to the map tab.
+import { useSession } from "@/features/auth/session-provider";
+
+// Unknown routes fall back to the map tab, or to login when signed out.
 export default function NotFoundRoute() {
-  return <Redirect href="/map" />;
+  const { state } = useSession();
+  return <Redirect href={state.status === "signed-in" ? "/map" : "/login"} />;
 }
