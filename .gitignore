@@ -35,3 +35,25 @@ dist-ssr
 .env
 .vite
 base44/.app.jsonc
+
+# Expo
+.expo/
+web-build/
+expo-env.d.ts
+*.tsbuildinfo
+/ios
+/android
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+.metro-health-check*
+
+# env: keep the example
+!.env.example
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
