@@ -1,5 +1,5 @@
 import * as Location from "expo-location";
-import { Stack, useRouter } from "expo-router";
+import { Stack, useNavigation, useRouter } from "expo-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import MapView, { type MapPressEvent, Marker, type Region } from "react-native-maps";
@@ -17,6 +17,7 @@ const BOGOTA: Region = { latitude: 4.6517, longitude: -74.0627, latitudeDelta: 0
 
 export function MapScreen() {
   const router = useRouter();
+  const navigation = useNavigation();
   const mapRef = useRef<MapView>(null);
   const restaurants = useRestaurants();
   const save = useSaveRestaurant();
@@ -44,6 +45,9 @@ export function MapScreen() {
       cancelled = true;
     };
   }, []);
+
+  // The sheet is a native modal, so it would otherwise stay open over a pushed screen.
+  useEffect(() => navigation.addListener("blur", () => setSelected(null)), [navigation]);
 
   const visible = useMemo(
     () => (restaurants.data ?? []).filter((r) => r.latitude && r.longitude && matchesQuery(r, query)),
