@@ -240,6 +240,8 @@ Each step is a separate commit and the app runs at the end of each.
 
 ## Open items
 
-- Google login on native (spike, step 3).
+- Google login on native: outcome A (section 3) is provisional. The spike reached the real Google sign-in page but did not complete a round trip back through `komia://auth?access_token=...`, because no Google account was available to the agent. This needs a real sign-in attempt by the user before it counts as verified.
+- Android needs a development build to run the map at all: Google Maps requires the app's own API key, and Expo Go cannot load it. `pnpm android` builds and installs that development build; Metro alone (`pnpm start`) only works once it is installed.
+- Brand icons and splash artwork are still the template Expo placeholders, not KOMIA's own assets. Real assets are needed from the owner.
 - Confirm bundle id and package name before the first EAS build.
 - Confirm whether the owner wants Google Maps on iOS for identical tiles across platforms. Default is Apple Maps on iOS.
