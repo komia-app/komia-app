@@ -1,4 +1,5 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Pressable, StyleSheet, View } from "react-native";
 
 import { colors, spacing } from "@/theme";
 
@@ -13,7 +14,11 @@ export function RatingStars({ value, onChange, size = 20 }: RatingStarsProps) {
     <View style={styles.row} accessibilityRole={onChange ? "adjustable" : "text"} accessibilityLabel={`${value} of 5 stars`}>
       {[1, 2, 3, 4, 5].map((n) => (
         <Pressable key={n} onPress={onChange ? () => onChange(n) : undefined} disabled={!onChange} hitSlop={6}>
-          <Text style={[styles.star, { fontSize: size }, n <= value ? styles.on : styles.off]}>*</Text>
+          <MaterialCommunityIcons
+            name={n <= value ? "star" : "star-outline"}
+            size={size}
+            color={n <= value ? colors.yellow : colors.line}
+          />
         </Pressable>
       ))}
     </View>
@@ -22,7 +27,4 @@ export function RatingStars({ value, onChange, size = 20 }: RatingStarsProps) {
 
 const styles = StyleSheet.create({
   row: { flexDirection: "row", gap: spacing.xs },
-  star: { fontWeight: "900", lineHeight: 24 },
-  on: { color: colors.yellow },
-  off: { color: colors.line },
 });

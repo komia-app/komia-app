@@ -16,7 +16,7 @@ export function RestaurantSheet({ restaurant, onDismiss, onSave, onLog }: Restau
   return (
     <Host>
       <BottomSheet isPresented={restaurant !== null} onDismiss={onDismiss} snapPoints={["half", "full"]} showDragIndicator>
-        <RNHostView matchContents>
+        <RNHostView matchContents style={styles.host}>
           <View style={styles.content}>
             {restaurant ? <RestaurantCard restaurant={restaurant} onSave={onSave} onLog={onLog} /> : null}
           </View>
@@ -27,5 +27,6 @@ export function RestaurantSheet({ restaurant, onDismiss, onSave, onLog }: Restau
 }
 
 const styles = StyleSheet.create({
-  content: { padding: spacing.lg },
+  host: { width: "100%" },
+  content: { padding: spacing.lg, width: "100%" },
 });
