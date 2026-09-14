@@ -2,7 +2,7 @@ import * as Location from "expo-location";
 import { Stack, useRouter } from "expo-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
-import MapView, { Marker, type Region } from "react-native-maps";
+import MapView, { type MapPressEvent, Marker, type Region } from "react-native-maps";
 
 import { ScreenLoader } from "@/components/screen-loader";
 import { useSaveRestaurant } from "@/features/restaurants/mutations";
@@ -59,6 +59,11 @@ export function MapScreen() {
     }
   };
 
+  // Android also fires the map press for a marker tap; only a plain map tap clears the sheet.
+  const onMapPress = (e: MapPressEvent) => {
+    if (e.nativeEvent.action !== "marker-press") setSelected(null);
+  };
+
   const onLog = (r: Restaurant) => {
     setSelected(null);
     router.push({ pathname: "/log-visit", params: { id: r.id } });
@@ -70,7 +75,7 @@ export function MapScreen() {
     <View style={styles.root}>
       <Stack.Screen options={{ headerTransparent: true, headerLargeTitleEnabled: false, title: "" }} />
       <Stack.SearchBar placeholder="Search restaurants" onChangeText={(e) => setQuery(e.nativeEvent.text)} hideWhenScrolling={false} />
-      <MapView ref={mapRef} style={styles.map} initialRegion={BOGOTA} showsUserLocation onPress={() => setSelected(null)}>
+      <MapView ref={mapRef} style={styles.map} initialRegion={BOGOTA} showsUserLocation onPress={onMapPress}>
         {visible.map((r) => (
           <Marker
             key={r.id}
