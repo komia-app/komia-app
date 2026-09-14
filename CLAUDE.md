@@ -51,6 +51,10 @@ shadcn/ui (new-york style, JSX not TSX) in `src/components/ui/`, Tailwind with C
 
 `@/` resolves to `src/` (see `jsconfig.json`).
 
+## Test account
+
+A KOMIA test account for running the app end to end lives in the git-ignored `.env` as `KOMIA_TEST_EMAIL` and `KOMIA_TEST_PASSWORD` (`.env.example` lists the keys). Read them from `.env` when you need to log in on a simulator or on web. Never paste the values into a file that is committed, a commit message, a report that leaves the machine, or chat. The account is real data on the hosted backend: do not log it out on a device the owner is using, and do not delete its logs or lists.
+
 ### How to talk to the user
 
 Please remove all mannered prose.
