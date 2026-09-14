@@ -50,3 +50,7 @@ Routes are in `App.jsx`. Authenticated pages render inside `MobileLayout` (heade
 shadcn/ui (new-york style, JSX not TSX) in `src/components/ui/`, Tailwind with CSS-variable theme tokens in `src/index.css`, icons from `lucide-react`. Brand colours are hard-coded in pages as hex (`#10375C` navy, `#F3C623` yellow) rather than through the theme tokens. The map is react-leaflet with a custom `divIcon` pin in `MapPage.jsx`; `leaflet` is a direct dependency because pnpm does not hoist it.
 
 `@/` resolves to `src/` (see `jsconfig.json`).
+
+### How to talk to the user
+
+Please remove all mannered prose.
