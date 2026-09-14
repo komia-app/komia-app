@@ -1,16 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-
-import { text } from "@/theme";
+import { OnboardingScreen } from "@/screens/onboarding";
 
 export default function OnboardingRoute() {
-  return (
-    <View style={styles.root}>
-      <Text style={styles.label}>onboarding (placeholder)</Text>
-    </View>
-  );
+  return <OnboardingScreen />;
 }
-
-const styles = StyleSheet.create({
-  root: { flex: 1, alignItems: "center", justifyContent: "center" },
-  label: text.caption,
-});
