@@ -55,17 +55,17 @@ eslint.config.js            eslint-config-expo
 src/
   app/                      routes only, one file per route
   screens/                  screen bodies, one folder per screen
-  components/               shared UI: restaurant-card, rating-stars, brand-mark, screen-loader, text-field
+  components/               shared UI: brand-mark, mia-card, primary-button, rating-stars, restaurant-card, screen-loader, text-field
   features/
     auth/                   session store, session provider, native Google login
     restaurants/            queries, mutations, save and log-visit actions
     profile/                taste profile, profile mutations
     onboarding/             onboarding steps
     mia/                    chat hook and message types
-  lib/base44.ts             the one SDK client
+  lib/                      base44.ts (the one SDK client), crypto-polyfill.ts, query-client.ts
   theme.ts                  colours, spacing, radii, type scale
   types/entities.ts         Restaurant, RestaurantLog, SavedList, ListItem, Follow, Recommendation, User
-assets/                     icon, splash, adaptive icon
+assets/images/              icon, splash, adaptive icon
 base44/                     backend definition: entities, the miaChat function, app config
 ```
 
