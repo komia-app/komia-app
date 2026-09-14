@@ -1,4 +1,4 @@
-import type { TasteProfile } from "@/types/entities";
+import type { PriceLevel, TasteProfile } from "@/types/entities";
 
 export const CUISINES = ["Italian", "Japanese", "Mexican", "Colombian", "Peruvian", "Korean", "Chinese", "Mediterranean", "Indian", "French", "American", "Arabic", "Vegetarian", "Vegan", "Fusion", "Street Food", "Other"];
 export const EXPERIENCES = ["Casual and relaxed", "Fine dining", "Date", "With friends", "Family", "Brunch", "Cafe", "Bar", "Street food", "Something different", "Celebration"];
@@ -58,4 +58,25 @@ export function canContinue(step: number, data: TasteProfile): boolean {
     case 5: return data.priorities.length === 5;
     default: return true;
   }
+}
+
+const PRICE_LEVELS: PriceLevel[] = ["$", "$$", "$$$", "$$$$"];
+
+export interface OnboardingUpdate {
+  taste_profile: TasteProfile;
+  onboarding_completed: true;
+  favorite_cuisines: string[];
+  price_preferences: PriceLevel[];
+}
+
+// Profile and the MIA function read favorite_cuisines and price_preferences,
+// so the onboarding answers are copied into those fields as well.
+export function buildOnboardingUpdate(data: TasteProfile): OnboardingUpdate {
+  const price = PRICE_LEVELS.find((p) => p === data.price);
+  return {
+    taste_profile: data,
+    onboarding_completed: true,
+    favorite_cuisines: data.cuisines.filter((c) => c !== "Other"),
+    price_preferences: price ? [price] : [],
+  };
 }

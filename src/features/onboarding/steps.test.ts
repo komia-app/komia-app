@@ -1,4 +1,4 @@
-import { canContinue, EMPTY_PROFILE, STEPS } from "./steps";
+import { buildOnboardingUpdate, canContinue, EMPTY_PROFILE, STEPS } from "./steps";
 
 describe("onboarding steps", () => {
   it("has seven steps with a question each", () => {
@@ -25,5 +25,19 @@ describe("onboarding steps", () => {
 
   it("always allows the last step", () => {
     expect(canContinue(6, EMPTY_PROFILE)).toBe(true);
+  });
+});
+
+describe("buildOnboardingUpdate", () => {
+  it("copies cuisines without Other and a concrete price level", () => {
+    const u = buildOnboardingUpdate({ ...EMPTY_PROFILE, cuisines: ["Italian", "Other"], price: "$$" });
+    expect(u.favorite_cuisines).toEqual(["Italian"]);
+    expect(u.price_preferences).toEqual(["$$"]);
+    expect(u.onboarding_completed).toBe(true);
+    expect(u.taste_profile.cuisines).toEqual(["Italian", "Other"]);
+  });
+
+  it("leaves price preferences empty when the answer is not a level", () => {
+    expect(buildOnboardingUpdate({ ...EMPTY_PROFILE, price: "depends" }).price_preferences).toEqual([]);
   });
 });
