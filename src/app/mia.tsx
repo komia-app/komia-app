@@ -1,16 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-
-import { text } from "@/theme";
+import { MiaScreen } from "@/screens/mia";
 
 export default function MiaRoute() {
-  return (
-    <View style={styles.root}>
-      <Text style={styles.label}>mia (placeholder)</Text>
-    </View>
-  );
+  return <MiaScreen />;
 }
-
-const styles = StyleSheet.create({
-  root: { flex: 1, alignItems: "center", justifyContent: "center" },
-  label: text.caption,
-});

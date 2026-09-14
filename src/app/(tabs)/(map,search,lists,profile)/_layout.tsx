@@ -1,6 +1,7 @@
-import { Stack } from "expo-router";
+import { Link, Stack } from "expo-router";
+import { Pressable, StyleSheet, Text } from "react-native";
 
-import { colors } from "@/theme";
+import { colors, radius, spacing, text } from "@/theme";
 
 export const unstable_settings = {
   map: { anchor: "map" },
@@ -30,9 +31,27 @@ export default function TabStackLayout({ segment }: { segment: string }) {
         headerBackButtonDisplayMode: "minimal",
       }}
     >
-      <Stack.Screen name={screen} options={{ title: titles[screen], headerLargeTitleEnabled: true }} />
+      <Stack.Screen
+        name={screen}
+        options={{
+          title: titles[screen],
+          headerLargeTitleEnabled: true,
+          headerRight: () => (
+            <Link href="/mia" asChild>
+              <Pressable hitSlop={8} style={styles.mia}>
+                <Text style={styles.miaText}>MIA</Text>
+              </Pressable>
+            </Link>
+          ),
+        }}
+      />
       <Stack.Screen name="restaurant/[id]" options={{ title: "" }} />
       <Stack.Screen name="log/[id]" options={{ title: "" }} />
     </Stack>
   );
 }
+
+const styles = StyleSheet.create({
+  mia: { backgroundColor: colors.orange, borderRadius: radius.pill, paddingHorizontal: spacing.md, paddingVertical: spacing.xs },
+  miaText: { ...text.caption, color: colors.white },
+});
