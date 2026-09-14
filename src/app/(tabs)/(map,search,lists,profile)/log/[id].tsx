@@ -1,16 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useLocalSearchParams } from "expo-router";
 
-import { text } from "@/theme";
+import { LogDetailScreen } from "@/screens/log-detail";
 
 export default function LogDetailRoute() {
-  return (
-    <View style={styles.root}>
-      <Text style={styles.label}>log detail</Text>
-    </View>
-  );
+  const { id } = useLocalSearchParams<{ id: string }>();
+  return <LogDetailScreen id={id ?? ""} />;
 }
-
-const styles = StyleSheet.create({
-  root: { flex: 1, alignItems: "center", justifyContent: "center" },
-  label: text.caption,
-});

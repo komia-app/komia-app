@@ -24,6 +24,14 @@ export function useRestaurant(id: string) {
   });
 }
 
+export function useLog(id: string) {
+  return useQuery({
+    queryKey: logKeys.detail(id),
+    queryFn: async () => (await base44.entities.RestaurantLog.get(id)) as RestaurantLog,
+    enabled: id.length > 0,
+  });
+}
+
 export function useMyLogs() {
   const user = useCurrentUser();
   const userId = user?.id ?? "";
