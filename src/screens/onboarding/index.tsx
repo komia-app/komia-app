@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -6,7 +6,7 @@ import { BrandMark } from "@/components/brand-mark";
 import { PrimaryButton } from "@/components/primary-button";
 import { TextField } from "@/components/text-field";
 import { useSession } from "@/features/auth/session-provider";
-import { ADVENTURE, AVOID, canContinue, CUISINES, EMPTY_PROFILE, EXPERIENCES, FLAVORS, PRICES, PRIORITIES, STEPS } from "@/features/onboarding/steps";
+import { ADVENTURE, AVOID, buildOnboardingUpdate, canContinue, CUISINES, EMPTY_PROFILE, EXPERIENCES, FLAVORS, PRICES, PRIORITIES, STEPS } from "@/features/onboarding/steps";
 import { base44 } from "@/lib/base44";
 import { colors, radius, spacing, text } from "@/theme";
 import type { TasteProfile } from "@/types/entities";
@@ -16,7 +16,7 @@ import { RankSelect } from "./rank-select";
 import { ScaleSelect } from "./scale-select";
 
 export function OnboardingScreen() {
-  const { refreshUser } = useSession();
+  const { refreshUser, state } = useSession();
   const [step, setStep] = useState(0);
   const [data, setData] = useState<TasteProfile>(EMPTY_PROFILE);
   const [submitting, setSubmitting] = useState(false);
@@ -29,13 +29,28 @@ export function OnboardingScreen() {
     if (!last) return setStep(step + 1);
     setSubmitting(true);
     try {
-      await base44.auth.updateMe({ taste_profile: data, onboarding_completed: true });
+      await base44.auth.updateMe(buildOnboardingUpdate(data));
       await refreshUser();
     } catch (e) {
       setSubmitting(false);
       Alert.alert("Could not save your profile", e instanceof Error ? e.message : "Please try again.");
     }
   };
+
+  // If the backend accepted the save but the account still reports onboarding as
+  // incomplete, the gate will not flip; release the button so the user is not stuck.
+  useEffect(() => {
+    if (submitting && state.status === "signed-in" && state.user.onboarding_completed !== true) {
+      const stillPending = state.user.taste_profile === undefined;
+      if (!stillPending) {
+        // Reacting to the session refresh landing, not to a render of this
+        // component, so setting state here does not cascade.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setSubmitting(false);
+        Alert.alert("Profile saved, but the account was not marked as onboarded", "Restart the app or contact support.");
+      }
+    }
+  }, [submitting, state]);
 
   const info = STEPS[step];
 
