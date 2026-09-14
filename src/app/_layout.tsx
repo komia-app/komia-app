@@ -48,7 +48,7 @@ function RootNavigator() {
           name="mia"
           options={{
             presentation: "formSheet",
-            sheetAllowedDetents: [0.6, 1],
+            sheetAllowedDetents: [1],
             sheetGrabberVisible: true,
             headerShown: false,
           }}
