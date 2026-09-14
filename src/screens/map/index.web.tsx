@@ -1,29 +1,24 @@
-import { useRouter } from "expo-router";
 import { useMemo, useState } from "react";
 import { FlatList, StyleSheet, TextInput, View } from "react-native";
 
 import { RestaurantCard } from "@/components/restaurant-card";
 import { ScreenLoader } from "@/components/screen-loader";
-import { useSaveRestaurant } from "@/features/restaurants/mutations";
 import { useRestaurants } from "@/features/restaurants/queries";
 import { colors, radius, spacing } from "@/theme";
-import type { Restaurant } from "@/types/entities";
 
 import { matchesQuery } from "@/features/restaurants/filter";
+import { useRestaurantActions } from "@/features/restaurants/use-restaurant-actions";
 
 // Web is development-only: the map library has no web build, so this lists the same data.
 export function MapScreen() {
-  const router = useRouter();
   const restaurants = useRestaurants();
-  const save = useSaveRestaurant();
+  const { onSave, onLog } = useRestaurantActions();
   const [query, setQuery] = useState("");
 
   const visible = useMemo(
     () => (restaurants.data ?? []).filter((r) => matchesQuery(r, query)),
     [restaurants.data, query],
   );
-
-  const onLog = (r: Restaurant) => router.push({ pathname: "/log-visit", params: { id: r.id } });
 
   if (restaurants.isPending) return <ScreenLoader />;
 
@@ -34,9 +29,7 @@ export function MapScreen() {
         data={visible}
         keyExtractor={(r) => r.id}
         contentContainerStyle={styles.list}
-        renderItem={({ item }) => (
-          <RestaurantCard restaurant={item} onSave={(r) => save.mutate(r)} onLog={onLog} />
-        )}
+        renderItem={({ item }) => <RestaurantCard restaurant={item} onSave={onSave} onLog={onLog} />}
       />
     </View>
   );

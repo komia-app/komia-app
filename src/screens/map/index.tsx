@@ -1,29 +1,28 @@
 import * as Location from "expo-location";
-import { Stack, useNavigation, useRouter } from "expo-router";
+import { Stack, useNavigation } from "expo-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import MapView, { type MapPressEvent, Marker, type Region } from "react-native-maps";
 
 import { ScreenLoader } from "@/components/screen-loader";
-import { useSaveRestaurant } from "@/features/restaurants/mutations";
 import { useRestaurants } from "@/features/restaurants/queries";
 import { colors } from "@/theme";
 import type { Restaurant } from "@/types/entities";
 
 import { matchesQuery } from "@/features/restaurants/filter";
+import { useRestaurantActions } from "@/features/restaurants/use-restaurant-actions";
 
 import { RestaurantSheet } from "./restaurant-sheet";
 
 const BOGOTA: Region = { latitude: 4.6517, longitude: -74.0627, latitudeDelta: 0.08, longitudeDelta: 0.08 };
 
 export function MapScreen() {
-  const router = useRouter();
   const navigation = useNavigation();
   const mapRef = useRef<MapView>(null);
   const restaurants = useRestaurants();
-  const save = useSaveRestaurant();
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Restaurant | null>(null);
+  const { onSave, onLog } = useRestaurantActions(() => setSelected(null));
 
   useEffect(() => {
     let cancelled = false;
@@ -55,23 +54,9 @@ export function MapScreen() {
     [restaurants.data, query],
   );
 
-  const onSave = async (r: Restaurant) => {
-    try {
-      const result = await save.mutateAsync(r);
-      Alert.alert(result === "saved" ? "Saved to Want to try" : "Already in Want to try");
-    } catch (e) {
-      Alert.alert("Could not save", e instanceof Error ? e.message : undefined);
-    }
-  };
-
   // Android also fires the map press for a marker tap; only a plain map tap clears the sheet.
   const onMapPress = (e: MapPressEvent) => {
     if (e.nativeEvent.action !== "marker-press") setSelected(null);
-  };
-
-  const onLog = (r: Restaurant) => {
-    setSelected(null);
-    router.push({ pathname: "/log-visit", params: { id: r.id } });
   };
 
   if (restaurants.isPending) return <ScreenLoader />;
