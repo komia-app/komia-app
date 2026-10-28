@@ -10,6 +10,27 @@ Treat it as user-owned application code, keep changes focused on the request, an
 
 Start with `README.md` for local setup, environment variables, and the publish workflow. It is right on how to run the app locally: use `pnpm android`, `pnpm ios`, `pnpm start`, or `pnpm web`, never a local Base44 backend for the frontend.
 
+## Code Standards
+
+Every change to this repo, by a person or by any AI agent, follows the rules in `docs/code-standards.md`. Each rule has an id, such as `DATA-2`, so a review can name it.
+
+1. Before the first edit, read `docs/code-standards.md` in full.
+2. Find the closest existing file of the same kind and copy its shape: `src/screens/my-logs/index.tsx` for a screen, `src/features/restaurants/` for data code, `src/types/entities.ts` and `base44/entities/` for fields.
+3. Put each piece of code where it belongs:
+
+| What you are writing | Where it goes |
+|---|---|
+| A route | `src/app/`, one thin file that renders a screen |
+| A screen's body and its private parts | `src/screens/<name>/` |
+| A component used by two or more screens | `src/components/` |
+| Query keys, reads, writes | `src/features/<domain>/keys.ts`, `queries.ts`, `mutations.ts` |
+| Logic that does not need React, and its test | `src/features/<domain>/<name>.ts` and `<name>.test.ts` |
+| Colours, spacing, radii, text styles | `src/theme.ts` |
+| A data field | `base44/entities/<Entity>.jsonc` and `src/types/entities.ts` together |
+| Server-side logic or secrets | `base44/functions/<name>/entry.ts` |
+
+4. Before committing, run `pnpm lint`, `pnpm typecheck`, and `pnpm test`, then check the change with the steps in `.claude/skills/reviewing-komia-changes/SKILL.md`. That file is plain markdown and any agent can follow it.
+
 ## Commands
 
 Package manager is pnpm 11 (`packageManager` in `package.json`). Do not use npm.
@@ -63,6 +84,7 @@ Expo UI (`@expo/ui`) provides native controls: `BottomSheet`, `List`, sliders, a
 
 - `app.config.ts`: Expo app config, reads env vars including the Google Maps key.
 - `.env`: local-only environment values; never commit secrets.
+- `docs/code-standards.md`: the code rules.
 
 ## Base44
 

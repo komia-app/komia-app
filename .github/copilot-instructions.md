@@ -4,6 +4,8 @@
 
 KOMIA is an Expo SDK 57 app (TypeScript, Expo Router, TanStack Query) for iOS and Android, backed by Base44. The frontend lives in `src/`; the backend definition lives in `base44/` and is edited rarely. Use these rules when reviewing pull requests. Focus on correctness and the project's conventions; skip style comments that a formatter or linter would catch.
 
+The full rule list is in `docs/code-standards.md`. Each rule has an id, such as `DATA-2`. Name the id in a review comment when a rule applies.
+
 ## What to check first
 
 - Secrets: no API keys, tokens, passwords, or account credentials in any committed file. They belong only in the git-ignored `.env`.
